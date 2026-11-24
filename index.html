@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>වාණිජ A/L – Study App</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala:wght@400;600;800&family=Sora:wght@600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b1020;--bg2:#121a33;--card:#17213f;--ink:#eef2ff;--mute:#9aa7cf;--mint:#3ddc97;--gold:#f2c14e;--red:#ff6b6b;--line:#27325a;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#eef2fb;--bg2:#e1e8f8;--card:#fff;--ink:#101936;--mute:#5a6797;--mint:#0d9a62;--gold:#b7820a;--red:#d93c3c;--line:#d3dcf1}}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:"Noto Sans Sinhala",system-ui,sans-serif;overflow-x:hidden}
+.blob{position:fixed;border-radius:50%;filter:blur(70px);opacity:.28;z-index:0;animation:fl 14s ease-in-out infinite alternate}
+.b1{width:260px;height:260px;background:var(--mint);top:-60px;left:-80px}
+.b2{width:300px;height:300px;background:var(--gold);bottom:60px;right:-120px;animation-delay:-6s}
+@keyframes fl{to{transform:translate(40px,50px) scale(1.2)}}
+.app{position:relative;z-index:1;max-width:460px;margin:0 auto;min-height:100%;padding:18px 16px 96px}
+h1,h2{font-family:Sora,"Noto Sans Sinhala",sans-serif}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.top h1{font-size:22px;font-weight:800;letter-spacing:-.3px}
+.top small{color:var(--mute);display:block;font-size:13px;font-family:"Noto Sans Sinhala"}
+.chip{background:var(--card);border:1px solid var(--line);border-radius:99px;padding:6px 12px;font-size:13px;font-weight:600}
+.view{display:none}.view.on{display:block;animation:in .35s ease}
+@keyframes in{from{opacity:0;transform:translateY(10px)}}
+.hero{display:flex;gap:16px;align-items:center;background:linear-gradient(135deg,var(--card),var(--bg2));border:1px solid var(--line);border-radius:26px;padding:18px}
+.ring{position:relative;width:112px;height:112px;flex:none}
+.ring svg{transform:rotate(-90deg)}
+.ring circle{fill:none;stroke-width:10;stroke-linecap:round}
+.ring .t{stroke:var(--line)}.ring .p{stroke:url(#g);stroke-dasharray:314;stroke-dashoffset:314;transition:stroke-dashoffset 1.8s cubic-bezier(.2,.8,.2,1)}
+.ring b{position:absolute;inset:0;display:grid;place-items:center;font:800 26px Sora}
+.hero p{color:var(--mute);font-size:13px;line-height:1.7}.hero h2{font-size:17px;margin-bottom:4px}
+.row{display:flex;gap:10px;margin:14px 0}
+.stat{flex:1;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:12px;text-align:center}
+.stat b{display:block;font:800 20px Sora}.stat span{font-size:12px;color:var(--mute)}
+h3{font-size:15px;margin:20px 0 10px;font-weight:800}
+.subj{display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:14px;margin-bottom:10px;cursor:pointer;transition:transform .2s,border-color .2s}
+.subj:hover,.subj:active{transform:translateX(4px);border-color:var(--mint)}
+.ico{width:48px;height:48px;border-radius:15px;display:grid;place-items:center;font-size:24px;flex:none}
+.subj .m{flex:1}.subj b{font-size:15px}.subj small{display:block;color:var(--mute);font-size:12px;margin:2px 0 7px}
+.bar{height:6px;background:var(--line);border-radius:9px;overflow:hidden}.bar i{display:block;height:100%;width:0;border-radius:9px;transition:width 1.4s cubic-bezier(.2,.8,.2,1)}
+.btn{display:block;width:100%;border:0;border-radius:16px;padding:14px;font:700 15px "Noto Sans Sinhala";background:linear-gradient(90deg,var(--mint),var(--gold));color:#07101f;cursor:pointer;transition:transform .15s}
+.btn:active{transform:scale(.97)}
+.btn.ghost{background:var(--card);color:var(--ink);border:1px solid var(--line)}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:10px;scrollbar-width:none}
+.tabs button{flex:none;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:8px 14px;border-radius:99px;font:600 13px "Noto Sans Sinhala";cursor:pointer}
+.tabs button.on{background:var(--mint);color:#07101f;border-color:var(--mint)}
+.item{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:13px;margin-bottom:9px;cursor:pointer;transition:transform .2s}
+.item:active{transform:scale(.98)}
+.item .m{flex:1}.item b{font-size:14px}.item small{display:block;color:var(--mute);font-size:12px;margin-top:2px}
+.tag{font-size:11px;font-weight:700;padding:4px 9px;border-radius:99px;background:rgba(61,220,151,.15);color:var(--mint)}
+.tag.lock{background:rgba(242,193,78,.16);color:var(--gold)}
+.q{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:18px}
+.qh{display:flex;justify-content:space-between;font-size:13px;color:var(--mute);margin-bottom:10px}
+.q h2{font-size:17px;line-height:1.7;margin-bottom:14px;font-family:"Noto Sans Sinhala";font-weight:700}
+.opt{display:block;width:100%;text-align:left;background:var(--bg2);color:var(--ink);border:1.5px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:9px;font:500 14px "Noto Sans Sinhala";cursor:pointer;transition:all .2s}
+.opt:hover{border-color:var(--mint)}
+.opt.ok{border-color:var(--mint);background:rgba(61,220,151,.16);animation:pop .4s}
+.opt.no{border-color:var(--red);background:rgba(255,107,107,.14);animation:shk .4s}
+@keyframes pop{50%{transform:scale(1.03)}}@keyframes shk{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.exp{font-size:13px;color:var(--mute);line-height:1.8;margin:6px 0 12px;display:none}
+.conf{position:fixed;top:40%;left:50%;width:9px;height:9px;border-radius:2px;pointer-events:none;z-index:9;animation:cf 1s ease-out forwards}
+@keyframes cf{to{transform:translate(var(--x),var(--y)) rotate(540deg);opacity:0}}
+.plan{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:18px;margin-bottom:12px;position:relative}
+.plan.best{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold),0 12px 34px rgba(242,193,78,.14)}
+.plan h2{font-size:16px;font-family:"Noto Sans Sinhala"}.plan .pr{font:800 28px Sora;margin:6px 0}.plan .pr small{font:500 13px "Noto Sans Sinhala";color:var(--mute)}
+.plan ul{list-style:none;padding:0;margin:8px 0 14px;font-size:13px;line-height:2;color:var(--mute)}.plan li:before{content:"✓ ";color:var(--mint);font-weight:800}
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;justify-content:center;padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px));background:linear-gradient(transparent,var(--bg) 40%)}
+.nav div{display:flex;width:100%;max-width:436px;background:var(--card);border:1px solid var(--line);border-radius:24px;padding:6px}
+.nav button{flex:1;border:0;background:none;color:var(--mute);padding:8px 0;border-radius:18px;font:600 11px "Noto Sans Sinhala";cursor:pointer;transition:all .25s}
+.nav button span{display:block;font-size:20px;transition:transform .25s}
+.nav button.on{color:var(--ink);background:var(--bg2)}.nav button.on span{transform:translateY(-2px) scale(1.18)}
+.toast{position:fixed;left:50%;bottom:104px;transform:translate(-50%,30px);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:14px;font-size:13px;font-weight:600;opacity:0;transition:all .3s;z-index:30;pointer-events:none;max-width:88%;text-align:center}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+.cont{display:flex;align-items:center;gap:14px;background:linear-gradient(120deg,rgba(61,220,151,.22),rgba(242,193,78,.18));border:1px solid var(--line);border-radius:22px;padding:14px;margin:14px 0 12px;cursor:pointer}
+.cont .pl{width:46px;height:46px;border-radius:50%;background:var(--mint);color:#07101f;display:grid;place-items:center;font-size:17px;flex:none;animation:pulse 2s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(61,220,151,.5)}100%{box-shadow:0 0 0 16px transparent}}
+.cont small{display:block;color:var(--mute);font-size:12px;margin-top:2px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:14px;margin-bottom:12px}
+.ph{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}.ph b{font-size:14px}.ph small{color:var(--mute);font-size:12px}
+.goal{display:flex;align-items:center;gap:10px;padding:10px 0;font-size:14px;cursor:pointer;border-top:1px solid var(--line)}
+.goal i{width:24px;height:24px;border-radius:8px;border:2px solid var(--line);display:grid;place-items:center;font-size:13px;font-style:normal;color:transparent;transition:all .25s;flex:none}
+.goal.d i{background:var(--mint);border-color:var(--mint);color:#07101f;transform:scale(1.12)}.goal.d span{text-decoration:line-through;color:var(--mute)}
+.wk{display:flex;align-items:flex-end;gap:8px;height:104px;margin-top:10px}
+.wk div{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end}
+.wk i{width:100%;border-radius:8px 8px 4px 4px;background:var(--line);height:0;transition:height 1.1s cubic-bezier(.2,.8,.2,1)}
+.wk div.t i{background:linear-gradient(var(--gold),var(--mint))}.wk span{font-size:11px;color:var(--mute)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.grid .subj{flex-direction:column;align-items:flex-start;gap:10px;margin:0}.grid .subj .m{width:100%}
+.grid .subj:first-child{grid-column:1/-1;flex-direction:row;align-items:center}
+@property --a{syntax:"<angle>";initial-value:0deg;inherits:false}
+@keyframes spin{to{--a:360deg}}
+.hh{position:relative;overflow:hidden;border-radius:30px;padding:18px;color:#fff;background:linear-gradient(135deg,#1c2b6b,#0f6b5a 55%,#8a6a12);background-size:220% 220%;animation:mesh 10s ease infinite;border:1px solid var(--line)}
+@keyframes mesh{50%{background-position:100% 100%}}
+.fl{position:absolute;font-size:26px;opacity:.5;animation:fy 6s ease-in-out infinite}
+.f1{top:14px;right:18px}.f2{top:78px;right:64px;animation-delay:-2s;font-size:20px}.f3{bottom:76px;right:14px;animation-delay:-4s}.f4{top:40px;right:112px;animation-delay:-1s;font-size:22px}
+@keyframes fy{50%{transform:translateY(-14px) rotate(12deg)}}
+.lv{display:flex;align-items:center;gap:10px}.av{width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.18);display:grid;place-items:center;font-size:24px;box-shadow:0 0 0 3px var(--gold)}
+.lv b{font-size:14px;display:block}.lv small{font-size:12px;opacity:.85}
+.hi{font-size:22px;line-height:1.55;margin:14px 0 12px;min-height:36px;font-family:"Noto Sans Sinhala";font-weight:800}
+.cur{display:inline-block;width:3px;height:1em;background:var(--gold);margin-left:3px;vertical-align:-3px;animation:bl 1s steps(2) infinite}@keyframes bl{50%{opacity:0}}
+.xpb{height:10px;background:rgba(255,255,255,.2);border-radius:9px;overflow:hidden}
+.xpb i{display:block;height:100%;width:0;border-radius:9px;background:linear-gradient(90deg,var(--mint),var(--gold),var(--mint));background-size:200%;animation:sh 2s linear infinite;transition:width 1.6s cubic-bezier(.2,.8,.2,1)}@keyframes sh{to{background-position:-200% 0}}
+.wd{display:flex;justify-content:space-between;margin-top:14px}
+.wd div{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px}
+.wd b{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,var(--gold),#ff8a3d);box-shadow:0 0 14px rgba(255,160,60,.55);font-size:15px;transform:scale(0)}
+.wd.go b{animation:pop2 .5s cubic-bezier(.3,1.6,.5,1) forwards;animation-delay:calc(var(--i)*.1s + .4s)}
+@keyframes pop2{to{transform:scale(1)}}
+.chal{margin:14px 0;border-radius:24px;padding:2px;cursor:pointer;background:conic-gradient(from var(--a),var(--mint),var(--gold),#7896ff,var(--mint));animation:spin 4s linear infinite;transition:transform .2s}
+.chal:active{transform:scale(.97)}
+.chin{background:var(--card);border-radius:22px;padding:16px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.chin small{display:block;color:var(--gold);font-weight:700;font-size:12px;margin-bottom:3px}.chin b{font-size:14px;line-height:1.6}
+.gt{background:var(--mint);color:#07101f;font-weight:800;font-size:13px;padding:9px 14px;border-radius:14px;flex:none;animation:nudge 1.8s ease-in-out infinite}
+@keyframes nudge{50%{transform:translateX(4px)}}
+.qa{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:0 0 6px}
+.qa button{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:18px;padding:12px 0;font:600 12px "Noto Sans Sinhala";cursor:pointer;transition:transform .2s}
+.qa button span{display:block;font-size:24px;margin-bottom:4px;transition:transform .3s}
+.qa button:hover span{transform:translateY(-4px) rotate(-8deg) scale(1.2)}.qa button:active{transform:scale(.94)}
+.hs{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:8px;scrollbar-width:none}
+.sc{flex:none;width:148px;scroll-snap-align:start;background:var(--card);border:1px solid var(--line);border-radius:22px;padding:14px;text-align:center;cursor:pointer;transition:transform .25s}
+.sc:active{transform:scale(.95)}
+.sc .rw{position:relative;width:72px;height:72px;margin:0 auto 8px}.sc svg{transform:rotate(-90deg)}
+.sc circle{fill:none;stroke-width:7;stroke-linecap:round}.sc .tr{stroke:var(--line)}
+.sc .rg{stroke-dasharray:201;stroke-dashoffset:201;transition:stroke-dashoffset 1.5s cubic-bezier(.2,.8,.2,1)}
+.sc .rw span{position:absolute;inset:0;display:grid;place-items:center;font-size:26px}
+.sc b{font-size:13px;display:block;margin-bottom:2px}.sc small{color:var(--mute);font-size:12px}
+.bd{display:flex;gap:10px}
+.bd div{flex:1;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:12px 4px;text-align:center;font-size:11px;color:var(--mute);transform:scale(0);animation:pop2 .5s cubic-bezier(.3,1.6,.5,1) forwards}
+.bd span{display:block;font-size:28px;margin-bottom:4px}.bd .lk{opacity:.4;filter:grayscale(1)}
+.lb{display:flex;align-items:center;gap:10px;padding:8px 0;font-size:13px}.lb .bar{flex:1}.lb b{width:54px;font-size:13px}
+.lb em{font-style:normal;font-size:12px;color:var(--mute);width:58px;text-align:right}.lb.me b{color:var(--gold)}
+.qt{text-align:center;color:var(--mute);font-size:13px;line-height:1.8;margin:18px 6px 6px;min-height:50px;transition:opacity .5s}
+#auth{position:fixed;inset:0;z-index:20;overflow-y:auto;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);background:radial-gradient(circle at 12% 0,rgba(61,220,151,.24),transparent 45%),radial-gradient(circle at 100% 75%,rgba(242,193,78,.2),transparent 45%),var(--bg);transition:transform .65s cubic-bezier(.7,0,.3,1),opacity .65s}
+#auth.out{transform:translateY(-100%);opacity:0;pointer-events:none}
+.au{max-width:420px;margin:0 auto;padding:34px 20px 40px;text-align:center}
+.logo{font-size:50px;width:92px;height:92px;margin:0 auto 14px;border-radius:30px;display:grid;place-items:center;background:linear-gradient(135deg,var(--mint),var(--gold));animation:lg 4s ease-in-out infinite;box-shadow:0 14px 40px rgba(61,220,151,.3)}
+@keyframes lg{50%{transform:translateY(-8px) rotate(-4deg)}}
+.at{font:800 28px Sora,"Noto Sans Sinhala",sans-serif}.as{color:var(--mute);font-size:13px;margin:6px 0 22px}
+.seg{position:relative;display:flex;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:4px;margin-bottom:18px}
+.seg i{position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 4px);border-radius:14px;background:linear-gradient(90deg,var(--mint),var(--gold));transition:transform .35s cubic-bezier(.4,1.3,.5,1)}
+.seg button{position:relative;flex:1;border:0;background:none;padding:11px;font:700 14px "Noto Sans Sinhala";color:var(--mute);cursor:pointer;transition:color .3s}.seg button.on{color:#07101f}
+.fm{text-align:left}.fx{margin-bottom:14px}.fx label{display:block;font-size:13px;font-weight:600;margin-bottom:6px;color:var(--mute)}
+.fx input{width:100%;background:var(--card);color:var(--ink);border:1.5px solid var(--line);border-radius:14px;padding:13px 14px;font:500 16px "Noto Sans Sinhala",sans-serif;outline:none;transition:border-color .2s,box-shadow .2s}
+.fx input:focus{border-color:var(--mint);box-shadow:0 0 0 4px rgba(61,220,151,.16)}
+.pw{position:relative}.pw input{padding-right:48px}.eye{position:absolute;right:6px;top:50%;transform:translateY(-50%);border:0;background:none;font-size:18px;padding:8px;cursor:pointer}
+.sb{height:5px;background:var(--line);border-radius:9px;margin-top:8px;overflow:hidden;opacity:0;transition:opacity .3s}.sgn .sb{opacity:1}
+.sb i{display:block;height:100%;width:0;border-radius:9px;transition:width .3s,background .3s}
+.ex{max-height:0;opacity:0;overflow:hidden;margin:0;padding:0 4px;transition:max-height .5s ease,opacity .4s,margin .4s}
+.ex.open{max-height:340px;opacity:1;margin:0 -4px 14px}
+.pills{display:flex;gap:8px;flex-wrap:wrap}.pills button{border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:99px;padding:8px 14px;font:600 13px "Noto Sans Sinhala";cursor:pointer;transition:all .2s}
+.pills button.on{background:var(--mint);color:#07101f;border-color:var(--mint);transform:scale(1.05)}
+.sch{display:inline-block;background:rgba(61,220,151,.15);color:var(--mint);font-size:13px;font-weight:700;padding:8px 14px;border-radius:99px}
+.er{min-height:22px;font-size:13px;color:var(--red);margin:2px 0 10px;line-height:1.6}.er.ok{color:var(--mint)}
+.shk{animation:shk .4s}
+.btn.ld{pointer-events:none;opacity:.85}.btn.ld:after{content:"";display:inline-block;width:14px;height:14px;margin-left:10px;border:2px solid #07101f;border-top-color:transparent;border-radius:50%;vertical-align:-2px;animation:rt .7s linear infinite}
+@keyframes rt{to{transform:rotate(360deg)}}
+.lk2{display:block;text-align:center;margin-top:14px;font-size:13px;color:var(--gold);cursor:pointer}
+.dm{font-size:11px;color:var(--mute);text-align:center;line-height:1.8;margin-top:18px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="blob b1"></div><div class="blob b2"></div>
+<div class="app">
+<div class="top"><div><small>ආයුබෝවන් 👋</small><h1 id="hn">ශිෂ්‍යයා</h1></div><div class="chip">🔥 <span id="streak">7</span> දින</div></div>
+
+<section class="view on" id="v-home">
+<div class="hh">
+<div class="lv"><div class="av">😎</div><div><b>Level 7</b><small><span id="xp">0</span> / 1000 XP</small></div></div>
+<h2 class="hi"><span id="typ"></span><i class="cur"></i></h2>
+<div class="xpb"><i id="xpf"></i></div>
+</div>
+<div class="chal" onclick="go('quiz')"><div class="chin"><div><small>අද Challenge ⚡</small><b>ප්‍රශ්න 5ක් කරලා +50 XP ගන්න</b></div><span class="gt">පටන් ගන්න</span></div></div>
+<h3 style="margin-top:6px">ඔබේ විෂයන්</h3><div class="hs" id="subjs"></div>
+<p class="qt" id="qt"></p>
+</section>
+
+<section class="view" id="v-notes"><h3 style="margin-top:0">Notes</h3><div class="tabs" id="ntabs"></div><div id="nlist"></div></section>
+<section class="view" id="v-papers"><h3 style="margin-top:0">Past Papers</h3><div class="tabs" id="ptabs"></div><div id="plist"></div></section>
+<section class="view" id="v-quiz"><h3 style="margin-top:0">MCQ Quiz</h3><div id="quizbox"></div></section>
+
+<section class="view" id="v-plans"><h3 style="margin-top:0">Packages</h3>
+<div class="plan"><h2>නොමිලේ</h2><div class="pr">රු. 0</div><ul><li>නොමිලේ notes සහ papers තෝරාගත්</li><li>දිනකට quiz 1ක්</li></ul><button class="btn ghost" onclick="toast('නොමිලේ ගිණුම ක්‍රියාත්මකයි ✅')">දැනටමත් ඔබ සිටින්නේ මෙහි</button></div>
+<div class="plan"><h2>එක් විෂයක්</h2><div class="pr">රු. 600 <small>/ මාසය</small></div><ul><li>තෝරාගත් විෂයේ සියලු notes</li><li>සියලු papers + marking</li><li>අසීමිත quizzes</li></ul><button class="btn ghost" onclick="toast('Demo: ගෙවීම් (PayHere) පසුව සම්බන්ධ කරමු')">තෝරන්න</button></div>
+<div class="plan best"><h2>Commerce Full Pack ⭐</h2><div class="pr">රු. 1,500 <small>/ මාසය</small></div><ul><li>විෂය 3ම, සියල්ල විවෘතයි</li><li>Offline download</li><li>Progress analytics</li><li>දවස් 7ක් නොමිලේ උත්සාහ කරන්න</li></ul><button class="btn" onclick="toast('Demo: දවස් 7ක නොමිලේ පටන් ගත්තා 🎉');boom()">දවස් 7ක් නොමිලේ පටන් ගන්න</button></div>
+<p style="font-size:12px;color:var(--mute);text-align:center;line-height:1.8">මිල ගණන් නිදර්ශනයක් පමණයි.</p><button class="btn ghost" style="margin-top:14px" onclick="logout()">ගිණුමෙන් පිටවන්න</button></section>
+</div>
+
+<div class="nav"><div id="nav"></div></div>
+<div id="auth"><div class="au">
+<div class="logo">📘</div><h1 class="at">වාණිජ A/L</h1><p class="as">විභාගයට සූදානම් වෙන්න, ඔබේ වේගයෙන්</p>
+<div class="seg"><i id="sg"></i><button id="tL" class="on" onclick="mode('l')">Log in</button><button id="tS" onclick="mode('s')">Sign up</button></div>
+<div class="fm">
+<div class="fx ex" id="nmW"><label>ඔබේ නම</label><input id="nm" autocomplete="name" placeholder="උදා: නිමල් පෙරේරා"></div>
+<div class="fx"><label>Email ලිපිනය</label><input id="em" autocomplete="username" inputmode="email" placeholder="name@mail.com"></div>
+<div class="fx"><label>මුරපදය</label><div class="pw"><input id="pw" type="password" autocomplete="current-password" placeholder="අවම අකුරු 6ක්" oninput="str()"><button type="button" class="eye" onclick="eye()">👁</button></div><div class="sb"><i id="sb"></i></div></div>
+<div class="ex" id="sx">
+<div class="fx"><label>විෂය ධාරාව</label><span class="sch">📈 වාණිජ</span></div>
+<div class="fx"><label>අධ්‍යයන මාධ්‍යය</label><div class="pills" id="md"><button class="on" onclick="pick('md',this)">සිංහල</button><button onclick="pick('md',this)">English</button><button onclick="pick('md',this)">தமிழ்</button></div></div>
+<div class="fx"><label>A/L විභාග වර්ෂය</label><div class="pills" id="yr"><button onclick="pick('yr',this)">2026</button><button class="on" onclick="pick('yr',this)">2027</button><button onclick="pick('yr',this)">2028</button></div></div>
+</div>
+<p class="er" id="er"></p>
+<button class="btn" id="go1" onclick="submit()">Log in</button>
+<a class="lk2" id="fg" onclick="showErr('Demo: මුරපද යළි පිහිටුවීම සැබෑ පද්ධතිය සම්බන්ධ කළාම ක්‍රියා කරයි.',1)">මුරපදය අමතකද?</a>
+<p class="dm">ඔබේ ගිණුම් විස්තර Firebase මගින් සුරක්ෂිතව ගබඩා වෙනවා.</p>
+</div></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+var S=[{n:"ගිණුම්කරණය",e:"📒",c:"rgba(61,220,151,.18)",p:72,k:"Accounting"},{n:"ව්‍යාපාර අධ්‍යයනය",e:"🏢",c:"rgba(242,193,78,.2)",p:55,k:"Business"},{n:"ආර්ථික විද්‍යාව",e:"📈",c:"rgba(120,150,255,.22)",p:64,k:"Economics"}];
+var N=[["Accounting","ගිණුම්කරණ සමීකරණය","පිටු 12",1],["Accounting","Trial Balance සහ දෝෂ","පිටු 18",1],["Accounting","අවසාන ගිණුම් (Final Accounts)","පිටු 26",0],["Accounting","Bank Reconciliation","පිටු 15",0],["Business","SWOT සහ ව්‍යාපාර පරිසරය","පිටු 10",1],["Business","අලෙවිකරණ මිශ්‍රණය (4P)","පිටු 14",0],["Business","මානව සම්පත් කළමනාකරණය","පිටු 16",0],["Economics","ඉල්ලුම සහ සැපයුම","පිටු 14",1],["Economics","GDP සහ ජාතික ආදායම","පිටු 20",0],["Economics","උද්ධමනය සහ මුදල් ප්‍රතිපත්තිය","පිටු 17",0]];
+var P=[2024,2023,2022,2021,2020,2019].flatMap(function(y,i){return S.map(function(s){return [s.k,y,i<2&&s.k!=="Accounting"?0:(i<1?0:1)]})});
+var Q=[{q:"ගිණුම්කරණ සමීකරණය නිවැරදිව දක්වා ඇත්තේ කුමකද?",o:["වත්කම් = වගකීම් + හිමිකම්","වත්කම් = වගකීම් - හිමිකම්","හිමිකම් = වත්කම් + වගකීම්","වගකීම් = වත්කම් + හිමිකම්"],a:0,x:"වත්කම් (Assets) = වගකීම් (Liabilities) + හිමිකම් (Equity). ව්‍යාපාරයට ඇති දේ මුදල් සපයා ඇත්තේ ණය හෝ හිමිකරුගෙන් වන නිසා."},{q:"සාමාන්‍ය තත්ත්වයන් යටතේ, භාණ්ඩයක මිල ඉහළ ගියහොත් ඉල්ලුම් ප්‍රමාණයට සිදුවන්නේ කුමක්ද?",o:["වැඩි වේ","අඩු වේ","වෙනස් නොවේ","දෙගුණ වේ"],a:1,x:"ඉල්ලුම් නීතියට අනුව (අනෙක් සාධක නොවෙනස්ව) මිල වැඩි වන විට ඉල්ලුම් ප්‍රමාණය අඩු වේ."},{q:"SWOT විශ්ලේෂණයේ \"W\" මගින් දැක්වෙන්නේ?",o:["Wealth","Weaknesses (දුර්වලතා)","Wages","Wastage"],a:1,x:"SWOT = Strengths, Weaknesses, Opportunities, Threats. W යනු දුර්වලතා, ව්‍යාපාරයේ අභ්‍යන්තර අඩුපාඩු."},{q:"ණය (වගකීම්) ගිණුමක් වැඩි වන විට එය සටහන් කරන්නේ කුමන පැත්තේද?",o:["හර (Debit)","බැර (Credit)","දෙපැත්තේම","සටහන් නොකරයි"],a:1,x:"වගකීම්, හිමිකම් සහ ආදායම් වැඩි වන විට බැර (Credit) පැත්තේ සටහන් වේ."},{q:"GDP යනු කුමක්ද?",o:["රටේ මුළු ණය","රටක් තුළ වසරක් තුළ නිපදවූ අවසාන භාණ්ඩ හා සේවා වල වටිනාකම","රජයේ ආදායම","සියලු ආනයන වටිනාකම"],a:1,x:"දළ දේශීය නිෂ්පාදිතය (GDP) යනු රටක් තුළ නිශ්චිත කාලයක් තුළ නිපදවූ අවසාන භාණ්ඩ හා සේවා වල මූල්‍ය වටිනාකමයි."}];
+var $=function(i){return document.getElementById(i)};
+var NV=[["home","🏠","මුල"],["notes","📚","Notes"],["papers","📝","Papers"],["quiz","⚡","Quiz"],["plans","💎","Plans"]];
+$("nav").innerHTML=NV.map(function(n){return '<button data-v="'+n[0]+'" onclick="go(\''+n[0]+'\')"><span>'+n[1]+'</span>'+n[2]+'</button>'}).join("");
+function go(v){document.querySelectorAll(".view").forEach(function(e){e.classList.toggle("on",e.id==="v-"+v)});document.querySelectorAll(".nav button").forEach(function(b){b.classList.toggle("on",b.dataset.v===v)});scrollTo({top:0,behavior:"smooth"});if(v==="home")anim();if(v==="quiz"&&!qs.run)startQ()}
+var tt;function toast(m){var t=$("toast");t.textContent=m;t.classList.add("on");clearTimeout(tt);tt=setTimeout(function(){t.classList.remove("on")},2200)}
+function boom(){for(var i=0;i<22;i++){var c=document.createElement("i");c.className="conf";c.style.cssText="--x:"+(Math.random()*320-160)+"px;--y:"+(Math.random()*-260-30)+"px;background:"+["#3ddc97","#f2c14e","#7896ff","#ff6b6b"][i%4];document.body.appendChild(c);setTimeout(function(e){e.remove()},1000,c)}}
+var COL=["#3ddc97","#f2c14e","#7896ff"];
+$("subjs").innerHTML=S.map(function(s,i){return '<div class="sc" onclick="pickN(\''+s.k+'\')"><div class="rw"><svg width="72" height="72" viewBox="0 0 72 72"><circle class="tr" cx="36" cy="36" r="32"/><circle class="rg" data-p="'+s.p+'" cx="36" cy="36" r="32" stroke="'+COL[i]+'"/></svg><span>'+s.e+'</span></div><b>'+s.n+'</b><small>'+s.p+'% සම්පූර්ණයි</small></div>'}).join("");
+function bars(){var w=document.querySelectorAll(".wk i");w.forEach(function(b){b.style.height=0});setTimeout(function(){w.forEach(function(b){b.style.height=b.dataset.h+"%"})},150)}
+function tg(e){e.classList.toggle("d");var c=document.querySelectorAll(".goal.d").length;$("gc").textContent=c;if(c===3){boom();toast("අද ඉලක්ක සියල්ල සම්පූර්ණයි 🎉")}}
+var ty;
+function typ(){var t="අද ඉගෙනගමුද? 🚀",g=(window.Intl&&Intl.Segmenter)?Array.from(new Intl.Segmenter("si",{granularity:"grapheme"}).segment(t),function(x){return x.segment}):[t],i=0;clearInterval(ty);$("typ").textContent="";ty=setInterval(function(){$("typ").textContent+=g[i++];if(i>=g.length)clearInterval(ty)},55)}
+function anim(){var xf=$("xpf");xf.style.width=0;setTimeout(function(){xf.style.width="64%"},80);cnt($("xp"),640);
+var rg=document.querySelectorAll(".rg"),lb=document.querySelectorAll(".lb .bar i");rg.forEach(function(c){c.style.strokeDashoffset=201});lb.forEach(function(b){b.style.width=0});
+setTimeout(function(){rg.forEach(function(c){c.style.strokeDashoffset=201*(1-c.dataset.p/100)});lb.forEach(function(b){b.style.width=b.dataset.w+"%"})},150);
+typ()}
+function cnt(el,to){var s=performance.now();(function f(t){var p=Math.min((t-s)/1400,1);el.textContent=Math.round(to*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(f)})(s)}
+var nf="All",pf="All";
+function tabs(id,cur,fn){$(id).innerHTML=[["All","සියල්ල"]].concat(S.map(function(s){return [s.k,s.n]})).map(function(t){return '<button class="'+(t[0]===cur?"on":"")+'" onclick="'+fn+'(\''+t[0]+'\')">'+t[1]+'</button>'}).join("")}
+function tag(free){return free?'<span class="tag">නොමිලේ</span>':'<span class="tag lock">🔒 Premium</span>'}
+function open_(free,t){if(free){toast("📖 "+t+" විවෘත කරනවා…")}else{toast("🔒 Premium අවශ්‍යයි, Plans බලන්න");setTimeout(function(){go("plans")},900)}}
+function pickN(k){nf=k;rN();go("notes")}
+function rN(){tabs("ntabs",nf,"pickN");$("nlist").innerHTML=N.filter(function(n){return nf==="All"||n[0]===nf}).map(function(n){return '<div class="item" onclick="open_('+n[3]+',\''+n[1]+'\')"><div class="ico" style="background:var(--bg2)">📄</div><div class="m"><b>'+n[1]+'</b><small>'+n[2]+'</small></div>'+tag(n[3])+'</div>'}).join("")}
+function pickP(k){pf=k;rP()}
+function rP(){tabs("ptabs",pf,"pickP");$("plist").innerHTML=P.filter(function(p){return pf==="All"||p[0]===pf}).map(function(p){return '<div class="item" onclick="open_('+p[2]+',\''+p[1]+' paper\')"><div class="ico" style="background:var(--bg2)">🗂️</div><div class="m"><b>'+p[1]+' A/L – '+p[0]+'</b><small>Paper I සහ II + Marking scheme</small></div>'+tag(p[2])+'</div>'}).join("")}
+var qs={i:0,s:0,run:0,done:0};
+function startQ(){qs={i:0,s:0,run:1,done:0};rQ()}
+function rQ(){var b=$("quizbox");if(qs.i>=Q.length){var pc=Math.round(qs.s/Q.length*100);qs.run=0;b.innerHTML='<div class="q" style="text-align:center"><div style="font-size:54px">'+(pc>=60?"🏆":"💪")+'</div><h2>'+qs.s+' / '+Q.length+' නිවැරදියි</h2><p style="color:var(--mute);font-size:14px;line-height:1.8;margin-bottom:16px">'+(pc>=60?"විශිෂ්ටයි! මේ විදිහටම ඉදිරියට.":"කමක් නැහැ, නැවත උත්සාහ කරමු. පුහුණුවෙන් දියුණු වෙනවා.")+'</p><button class="btn" onclick="startQ()">නැවත උත්සාහ කරන්න</button></div>';if(pc>=60)boom();return}
+var q=Q[qs.i];qs.done=0;b.innerHTML='<div class="q"><div class="qh"><span>ප්‍රශ්නය '+(qs.i+1)+' / '+Q.length+'</span><span>ලකුණු '+qs.s+'</span></div><div class="bar" style="margin-bottom:14px"><i style="width:'+(qs.i/Q.length*100)+'%;background:var(--mint)"></i></div><h2>'+q.q+'</h2>'+q.o.map(function(o,j){return '<button class="opt" onclick="ans('+j+')">'+o+'</button>'}).join("")+'<div class="exp" id="exp">💡 '+q.x+'</div><button class="btn" id="nx" style="display:none" onclick="qs.i++;rQ()">'+(qs.i===Q.length-1?"ප්‍රතිඵල බලන්න":"ඊළඟ ප්‍රශ්නය")+'</button></div>'}
+function ans(j){if(qs.done)return;qs.done=1;var q=Q[qs.i],o=document.querySelectorAll(".opt");o[q.a].classList.add("ok");if(j===q.a){qs.s++;boom()}else o[j].classList.add("no");$("exp").style.display="block";$("nx").style.display="block"}
+var U={n:"",m:"l",md:"සිංහල",yr:"2027"};
+var QT=["හෙට දවසට කල් දාන්නේ නැතුව අද පාඩමක් ඉවර කරන්න.","පොඩි පොඩි උත්සාහයන් එකතු වුණාම ලොකු ජයක් වෙනවා.","වැරදි වලින් ඉගෙනගන්න, ඒවා ඔබව ඉදිරියට ගෙනයනවා.","ඔබේ A/L සිහිනය ඔබේ අතේමයි."],qk=0;
+$("qt").textContent=QT[0];
+setInterval(function(){var q=$("qt");q.style.opacity=0;setTimeout(function(){qk=(qk+1)%QT.length;q.textContent=QT[qk];q.style.opacity=1},500)},5000);
+function mode(m){U.m=m;var s=m==="s";$("sg").style.transform=s?"translateX(100%)":"none";$("tL").classList.toggle("on",!s);$("tS").classList.toggle("on",s);$("nmW").classList.toggle("open",s);$("sx").classList.toggle("open",s);$("auth").classList.toggle("sgn",s);$("go1").textContent=s?"ගිණුමක් සාදන්න":"Log in";$("fg").style.display=s?"none":"block";$("pw").setAttribute("autocomplete",s?"new-password":"current-password");showErr("")}
+function pick(g,b){document.querySelectorAll("#"+g+" button").forEach(function(x){x.classList.toggle("on",x===b)});U[g]=b.textContent}
+function eye(){var p=$("pw");p.type=p.type==="password"?"text":"password"}
+function str(){var v=$("pw").value,s=0;if(v.length>=6)s++;if(v.length>=10)s++;if(/\d/.test(v)&&/[a-zA-Z]/.test(v))s++;if(/[^\w\s]/.test(v))s++;s=v?Math.max(s,1):0;var b=$("sb");b.style.width=s*25+"%";b.style.background=s<2?"var(--red)":s<3?"var(--gold)":"var(--mint)"}
+function showErr(m,ok,el){var e=$("er");e.textContent=m;e.className="er"+(ok?" ok":"");if(m&&!ok){var c=document.querySelector(".fm");c.classList.remove("shk");void c.offsetWidth;c.classList.add("shk");if(el)el.focus()}}
+function submit(){var s=U.m==="s",e=$("em").value.trim(),p=$("pw").value,n=$("nm").value.trim(),ph=e.replace(/[\s-]/g,""),ok=/^\S+@\S+\.\S+$/.test(e)||/^(\+94|0)7\d{8}$/.test(ph);
+if(s&&n.length<2)return showErr("කරුණාකර ඔබේ නම ඇතුළත් කරන්න.",0,$("nm"));
+if(!ok)return showErr("වලංගු email එකක් හෝ දුරකථන අංකයක් (07XXXXXXXX) ඇතුළත් කරන්න.",0,$("em"));
+if(p.length<6)return showErr("මුරපදයේ අවම අකුරු 6ක් තිබිය යුතුයි.",0,$("pw"));
+showErr("");var b=$("go1");b.classList.add("ld");
+setTimeout(function(){b.classList.remove("ld");if(s)U.n=n.split(" ")[0];enter(s)},1100)}
+function setName(){$("hn").textContent=U.n||"ශිෂ්‍යයා"}
+function enter(s){setName();$("auth").classList.add("out");setTimeout(function(){$("auth").style.display="none"},700);go("home");toast(s?"ගිණුම සෑදුවා, සාදරයෙන් පිළිගන්නවා 🎉":"නැවත සාදරයෙන් පිළිගන්නවා 👋");if(s)boom()}
+function logout(){U.n="";$("pw").value="";$("em").value="";str();mode("l");var a=$("auth");a.style.display="";void a.offsetWidth;a.classList.remove("out")}
+document.addEventListener("keydown",function(ev){if(ev.key==="Enter"&&ev.target.tagName==="INPUT"&&!$("auth").classList.contains("out"))submit()});
+rN();rP();go("home");
+</script>
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import{getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,signOut,onAuthStateChanged,updateProfile,sendPasswordResetEmail}from"https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+/* 1) Firebase console > Project settings > Your apps (Web) එකේ තියෙන firebaseConfig මෙතනට දාන්න */
+const firebaseConfig={apiKey:"AIzaSyALW_UgvGpjtgVyqXCnjwfRy-a7wBr2WGw",authDomain:"commerce-app-c3bef.firebaseapp.com",projectId:"commerce-app-c3bef",storageBucket:"commerce-app-c3bef.firebasestorage.app",messagingSenderId:"572896641092",appId:"1:572896641092:web:2ef1c79c3c2704595ebc11"};
+const ready=firebaseConfig.apiKey!=="YOUR_API_KEY";
+const auth=ready?getAuth(initializeApp(firebaseConfig)):null;
+const M={"auth/invalid-email":"email ලිපිනය වැරදියි.","auth/email-already-in-use":"මේ email එකෙන් ගිණුමක් දැනටමත් තියෙනවා. Log in කරන්න.","auth/weak-password":"මුරපදය දුර්වලයි, අවම අකුරු 6ක් දාන්න.","auth/invalid-credential":"email එක හෝ මුරපදය වැරදියි.","auth/user-not-found":"මේ email එකෙන් ගිණුමක් නැහැ. Sign up කරන්න.","auth/wrong-password":"මුරපදය වැරදියි.","auth/too-many-requests":"උත්සාහ ගොඩක් වුණා. මොහොතකින් නැවත උත්සාහ කරන්න.","auth/network-request-failed":"අන්තර්ජාල සම්බන්ධතාව පරීක්ෂා කරන්න."};
+const okEmail=function(e){return /^\S+@\S+\.\S+$/.test(e)};
+let fresh=false,entered=false;
+window.submit=async function(){
+if(!ready)return showErr("Firebase config එක තවම දාලා නැහැ. ගොනුවේ ඉහළින් firebaseConfig එක පුරවන්න.");
+var s=U.m==="s",e=$("em").value.trim(),p=$("pw").value,n=$("nm").value.trim();
+if(s&&n.length<2)return showErr("කරුණාකර ඔබේ නම ඇතුළත් කරන්න.",0,$("nm"));
+if(!okEmail(e))return showErr("වලංගු email ලිපිනයක් ඇතුළත් කරන්න.",0,$("em"));
+if(p.length<6)return showErr("මුරපදයේ අවම අකුරු 6ක් තිබිය යුතුයි.",0,$("pw"));
+showErr("");var b=$("go1");b.classList.add("ld");
+try{
+if(s){fresh=true;var c=await createUserWithEmailAndPassword(auth,e,p);await updateProfile(c.user,{displayName:n});entered=true;U.n=n.split(" ")[0];fresh=false;enter(true)}
+else await signInWithEmailAndPassword(auth,e,p);
+}catch(x){fresh=false;showErr(M[x.code]||"දෝෂයක් ඇති වුණා, නැවත උත්සාහ කරන්න.")}
+b.classList.remove("ld")};
+if(ready)onAuthStateChanged(auth,function(u){
+if(u&&!fresh&&!entered){entered=true;U.n=(u.displayName||u.email.split("@")[0]).split(" ")[0];enter(false)}
+if(!u)entered=false});
+const _lo=window.logout;
+window.logout=async function(){if(auth)await signOut(auth);entered=false;_lo()};
+$("fg").onclick=async function(){var e=$("em").value.trim();
+if(!ready)return showErr("Firebase config එක තවම දාලා නැහැ.");
+if(!okEmail(e))return showErr("මුරපදය යළි පිහිටුවන්න, මුලින් email එක ඇතුළත් කරන්න.",0,$("em"));
+try{await sendPasswordResetEmail(auth,e);showErr("මුරපද යළි පිහිටුවීමේ link එකක් "+e+" වෙත යැව්වා. Spam folder එකත් බලන්න.",1)}catch(x){showErr(M[x.code]||"දෝෂයක්, නැවත උත්සාහ කරන්න.")}};
+</script>
+</body>
+</html>
